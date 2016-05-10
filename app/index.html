@@ -8,6 +8,10 @@
 		<!-- site dependencies -->
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
 		<link href="assets/css/style.css" rel="stylesheet">
+
+		<!-- Iris Crossfilter -->
+		<link href="ttps://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.css" rel="stylesheet">
+		<link href="assets/css/iris_crossfilter.css" rel="stylesheet">
 </head>
 <body>
 	<!-- begin wrap -->		
@@ -24,7 +28,7 @@
 
 					<!-- begin header -->
 					<div class=".col-xs-12 .col-md-8">
-						<h1>Visualization Portfolio of {Your Name Here}</h1>
+						<h1>Visualization Portfolio of Dana Li</h1>
 						<h4><a href='http://web.stanford.edu/~dderiso/cme151/' target='_blank'>CME 161: Data Visualization</a> <small>Spring 2016</small></h4>
 						<hr>
 					</div>
@@ -33,17 +37,48 @@
 					<!-- begin viz 1 -->
 					<div class=".col-xs-12 .col-md-8">
 						<h3>
-							Random Triangle Meshes
+							Iris Dataset Using DC.js and Crossfilter
 						</h3>
 
 						<p>
-							This visualization is of random points being generated and plotted. At each time step, a random combination of the point's last value and a another random number is computed and plotted. The visualization therefore waxes and wanes randomly. Thin sections indicate that the value at the last timestep had a greater weight in the random combination, while thick sections indicate that randomness played a greater role. The library used is <a href="https://github.com/processing-js/processing-js/" target="_blank">processing.js</a>. (This example was made by Dave Deriso.)
+							This visualization is shows the variable species, sepal lengths and widths, and petal lengths and widths of iris flowers. Each chart is linked together, so selecting a subset of one or multiple dimensions will filter and update the other dimensions accordingly. The API used is <a href="http://tranquil-peak-82564.herokuapp.com/api/v1.0/data/iris/" target="_blank">here</a>. 
 						</p>
 
 						<hr>
 
-						<canvas id="processing_random_triangle_meshes"></canvas>
-						
+						<div id="iris_crossfilter" style="border:1px dotted black"> 
+
+							<div style="float:left;">
+								  <div id="resetButton"></div>
+								</div>
+								<br><br>
+								<div style="display:inline-block;">
+								  <h3>Sepal Length</h3>
+								  <div id="sepal_length_chart"></div>
+								</div>
+
+								<div style="display:inline-block;">
+								  <h3>Species</h3>
+								  <div id="species_chart"></div>
+								</div>
+
+								<div style="display:inline-block;">
+								  <h3>Sepal Width</h3>
+								  <div id="sepal_width_chart"></div>
+								</div>
+
+								<div style="display:inline-block;">
+								  <h3>Petal Length</h3>
+								  <div id="petal_length_chart"></div>
+								</div>
+
+								<div style="display:inline-block;">
+								  <h3>Petal Width</h3>
+								  <div id="petal_width_chart"></div>
+								</div>
+
+						</div>
+						<br><br>
 						<hr>
 
 					</div>
@@ -90,8 +125,13 @@
 	<!-- end footer -->
 
 	<!-- processing_random_triangle_meshes dependencies -->
-	<script src='https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.16/processing.min.js'></script>
-	<script src='assets/js/random_triangle_meshes/random_triangle_meshes.js'></script>
+
+
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js'></script> 
+	<script src='https://rawgit.com/crossfilter/crossfilter/master/crossfilter.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.min.js'></script>
+	<script src='assets/js/iris_crossfilter/iris_crossfilter.js'></script>
 
 </body>
 </html>
