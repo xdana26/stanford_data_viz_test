@@ -13,6 +13,12 @@ def index():
 def send_assets(path):
     return send_from_directory('app/assets/', path)
 
+@app.route('/api/limit/<int:n_entries>/', methods=['GET'])
+def get_some_data(n_entries):
+	with open('app/data/api/yelp_academic_dataset_business.json') as data_file:
+		return json.dumps(json.load(data_file)[0:n_entries])
+
+
 if __name__ == "__main__":
 	port = int(os.environ.get("PORT", 5050))
 	app.run(host='0.0.0.0', port=port, debug=False)
@@ -20,7 +26,3 @@ if __name__ == "__main__":
 # set debug=True if you want to have auto-reload on changes
 # this is great for developing
 
-@app.route('/data/api/yelp_academic_dataset_business/limit/<int:n_entries>/', methods=['GET'])
-def get_some_data(n_entries):
-	with open('app/data/api/yelp_academic_dataset_business.json') as data_file:
-		return json.dumps(json.load(data_file)[0:n_entries])
