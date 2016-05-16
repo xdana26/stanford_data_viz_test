@@ -19,3 +19,8 @@ if __name__ == "__main__":
 
 # set debug=True if you want to have auto-reload on changes
 # this is great for developing
+
+@app.route('/test')
+def get_some_data():
+	with open('/assets/api/yelp_academic_dataset_business.json') as data_file:
+		return json.dumps(json.load(data_file))
