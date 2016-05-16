@@ -17,7 +17,7 @@ def send_assets(path):
 
 @app.route('/api/limit/', methods=['GET'])
 def get_some_data():
-	with open('app/data/api/iristest.json') as data_file:
+	with open('app/data/api/yelp_academic_dataset_business.json') as data_file:
 		return json.dumps(json.load(data_file))
 
 
