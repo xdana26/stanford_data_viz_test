@@ -17,7 +17,7 @@ def send_assets(path):
 
 import json 
 data = []
-with open('app/assets/data/api/yelp_academic_dataset_business.json') as f:
+with open('app/assets/json/yelp_data.json') as f:
 	for line in f:
 		if "Las Vegas" in line:
 			data.append(json.loads(line))
