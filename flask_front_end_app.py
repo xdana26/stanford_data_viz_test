@@ -2,8 +2,6 @@ import os, copy
 from flask import Flask, jsonify, request, send_from_directory, make_response
 app = Flask(__name__, static_url_path='')
 
-import json
-
 # get root
 @app.route("/")
 def index():
@@ -15,10 +13,21 @@ def index():
 def send_assets(path):
     return send_from_directory('app/assets/', path)
 
-@app.route('/api/limit/<int:n_entries>/', methods=['GET'])
-def get_some_data(n_entries):
-	with open('app/data/api/yelp_academic_dataset_business.json') as data_file:
-		return json.dumps(json.load(data_file)[0:n_entries])
+# API
+
+import json 
+data = []
+with open('app/assets/data/api/yelp_academic_dataset_business.json') as f:
+	for line in f:
+		if "Las Vegas" in line:
+			data.append(json.loads(line))
+
+@app.route('/api/v1.0/data/some_data/', methods=['GET'])
+def get_some_data():
+	#return jsonify({'businesses':data})
+	return json.dumps(data)
+    #with open('app/assets/json/baseball.json') as data_file:
+	#return json.dumps(json.load(data_file))
 
 
 if __name__ == "__main__":
