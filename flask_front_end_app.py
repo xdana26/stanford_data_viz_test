@@ -14,9 +14,9 @@ def index():
 def send_assets(path):
     return send_from_directory('app/assets/', path)
 
-#@app.route('<web-url>/three/<path>/')
-#def send_assets():
-#	return send_from_directory('app/assets/{path}')
+@app.route('/three/<path:path>/')
+def send_assets(path):
+	return send_from_directory('app/assets/', path)
 
 
 if __name__ == "__main__":
