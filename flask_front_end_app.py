@@ -2,8 +2,6 @@ import os, copy
 from flask import Flask, jsonify, request, send_from_directory, make_response
 app = Flask(__name__, static_url_path='')
 
-import json
-lvdata = []
 
 # get root
 @app.route("/")
