@@ -10,13 +10,13 @@ def index():
 
 # send assets (ex. assets/js/random_triangle_meshes/random_triangle_meshes.js)
 # blocks other requests, so your directories won't get listed (ex. assets/js will return "not found")
-#@app.route('/assets/<path:path>')
-#def send_assets(path):
-#    return send_from_directory('app/assets/', path)
+@app.route('/assets/<path:path>')
+def send_assets(path):
+    return send_from_directory('app/assets/', path)
 
 @app.route('/three/<path:path>/')
-def send_assets(path):
-	return send_from_directory('app/assets/', path)
+def open_assets(path):
+	return send_from_directory('app/assets/html', path)
 
 
 if __name__ == "__main__":
