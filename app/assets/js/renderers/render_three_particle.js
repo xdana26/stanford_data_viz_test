@@ -1,16 +1,13 @@
-// Your job is to implement this file
-console.log(" IMPLEMENT ME! (OPEN ME, I HAVE HINTS) ");
-
 // ------------------------------------------------------------------------------------------------
 // scene, camera, and renderer go here
 
 var SCENE_WIDTH = SCENE_HEIGHT = 500;
 
 // create a canvas and a renderer, then append to document
-var canvas = document.getElementById("three_boid");
+var canvas = document.getElementById("three_particle");
 var renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true}); // use webgl renderer (GPU!)
 renderer.setSize(SCENE_WIDTH, SCENE_HEIGHT); // Resizes the output canvas to (width, height), and also sets the viewport to fit that size, starting in (0, 0).
-//document.body.appendChild(renderer.domElement); // attach renderer to canvas
+document.body.appendChild(renderer.domElement); // attach renderer to canvas
 
 // scene - where we put our models
 var scene = new THREE.Scene();
@@ -81,37 +78,12 @@ parent.add(bounding_box);
 // ---------------------------------------------------------
 // Particle Render Prototype Methods
 
- /*   Boid.prototype.set_hue  = function(){ this.hue = 180 * Math.random(); }
-    Boid.prototype.set_radius = function(){ this.radius = Math.random() * 40; }
-    Boid.prototype.set_rotation = function(){ 
-        this.rotation   = new THREE.Vector3();
-        this.rotation.x = this.rotation.y = this.rotation.z = 0;
-
-        this.rotation_v = new THREE.Vector3();
-        this.rotation_v.x = Math.random()/10;
-        this.rotation_v.y = Math.random()/10;
-        this.rotation_v.z = Math.random()/10;
-     }*/
- Boid.prototype.set_hue  = function(){ this.hue = 180 * Math.random(); }
-    Boid.prototype.set_radius = function(){ this.radius = Math.random() * 40; }
-    Boid.prototype.set_rotation = function(){ 
-        this.rotation   = new THREE.Vector3();
-        this.rotation.x = this.rotation.y = this.rotation.z = 0;
-
-        this.rotation_v = new THREE.Vector3();
-        this.rotation_v.x = Math.random()/10;
-        this.rotation_v.y = Math.random()/10;
-        this.rotation_v.z = Math.random()/10;
-     }
-
-
-
-Boid.prototype.create_geometry = function(){
+Particle.prototype.create_geometry = function(){
     // enable this if you want spheres
     // http://threejs.org/docs/#Reference/Extras.Geometries/SphereGeometry
-    //this.geometry = new THREE.SphereGeometry(
+    // this.geometry = new THREE.SphereGeometry(
     //     this.radius, // radius — sphere radius. Default is 50.
-     //    25,          // widthSegments — number of horizontal segments. Minimum value is 3, and the default is 8.
+    //     25,          // widthSegments — number of horizontal segments. Minimum value is 3, and the default is 8.
     //     25           // heightSegments — number of vertical segments. Minimum value is 2, and the default is 6.
     // );
     
@@ -119,11 +91,11 @@ Boid.prototype.create_geometry = function(){
     this.geometry = new THREE.BoxGeometry( this.radius, this.radius, this.radius);
 }
 
-Boid.prototype.create_material = function(){
+Particle.prototype.create_material = function(){
     // http://threejs.org/docs/#Reference/Math/Color
     this.color = new THREE.Color();
     this.color.setHSL( Math.random(), .85, .5 );
-    //console.log(this.color);
+
     // http://threejs.org/docs/#Reference/Materials/MeshPhongMaterial
     this.material = new THREE.MeshPhongMaterial({
         color: this.color,
@@ -132,81 +104,44 @@ Boid.prototype.create_material = function(){
     });
     this.material.transparent = true;
     this.material.opacity = .75;
-    console.log(this.material);
 }
 
-Boid.prototype.create_mesh = function(){
+Particle.prototype.create_mesh = function(){
     // http://threejs.org/docs/#Reference/Objects/Mesh
     this.mesh = new THREE.Mesh(
         this.geometry,
         this.material
     );
-    this.mesh.position.set(this.position.x, this.position.y, this.position.z);
- //   console.log(this.mesh);
+    this.mesh.position.set(this.x, this.y, this.z);
+    console.log(this.mesh);
 }
 
-Boid.prototype.init_mesh_obj = function(){
+Particle.prototype.init_mesh_obj = function(){
     this.create_geometry();
     this.create_material();
     this.create_mesh();
 }
 
-Boid.prototype.update_mesh = function(){
+Particle.prototype.update_mesh = function(){
     // update rotation ( rotation is a vector of type Euler http://threejs.org/docs/#Reference/Math/Euler )
-    this.mesh.position.set(this.position.x, this.position.y, this.position.z);
-   // this.mesh.rotation.setFromVector3(new THREE.Vector3(this.rotation.x, this.rotation.y, this.rotation.z));
+    this.mesh.position.set(this.x, this.y, this.z);
+    this.mesh.rotation.setFromVector3(new THREE.Vector3(this.rx, this.ry, this.rz));
 
     // calculate momentum and apply it to the color
-    var momentum = this.velocity.length() * this.radius;
-    //var momentum = Math.sqrt( Math.pow(this.velocity.x,2) + Math.pow(this.velocity.y,2) + Math.pow(this.velocity.z,2) ) * this._neighborhoodRadius;
+    var momentum = Math.sqrt( Math.pow(this.x_v,2) + Math.pow(this.y_v,2) + Math.pow(this.z_v,2) ) * this.radius;
     var intensity = momentum/200;
     if(intensity < 0) intensity = 0;
     if(intensity > 1) intensity = 1;
     this.mesh.material.color.setHSL( intensity, .1 + intensity * .85, .2 + intensity * .4);
-    //console.log(momentum);
-    //console.log(this.mesh.material.color);
 }
 
-Boid.prototype.set_parameters = function(){
+Particle.prototype.set_parameters = function(){
     // gravity is a downward force, -.1 makes the objects fly around longer
     this.gravity = -.1;
 }
-    // add boids
-  /*  var n = 200, data = [];
-    for (var i = 0; i < n; i++){
-        data[i] = new Boid();
-        data[i].set_hue();
-        data[i].set_radius();
-        data[i].set_rotation();
-        data[i].setWorldSize($p.width, $p.height, $p.width * 1.5);
-    }*/
-
-var n = 500;
-var data = [];
- // create new boid
-
- for(var i = 0; i < n; i++) {
-    var b = new Boid();
-// the methods to invoke here are left as an exercise
-    b.set_hue();
-    b.set_radius();
-    b.set_rotation();
-    //b.set_parameters();
-   // b.init_mesh_obj();
-    //b.setAvoidWalls(true);
-    //b.setWorldSize(SCENE_WIDTH,SCENE_HEIGHT,SCENE_WIDTH*1.5);
-    b.set_parameters();
-    b.init_mesh_obj();
-// add boid mesh object to the parent
-    parent.add(b.mesh);
-
-// add boid object to data array, so each element of the array is a boid
-    data.push(b);
-}
-console.log(data)
 
 // add particles
-/*var n = 500;
+var n = 500;
 
 var data = [];
 for (var i = 0; i < n; i++){
@@ -216,7 +151,7 @@ for (var i = 0; i < n; i++){
 
     parent.add(p.mesh);
     data.push(p);
-}*/
+}
 
 scene.add(parent);
 
@@ -237,14 +172,14 @@ scene.add(directionalLight2);
 // ------------------------------------------------------------------------------------------------
 // add FPS using Stats.js
 
-// add FPS using Stats.js
-
 var stats = new Stats();
 stats.setMode(0); // 0: fps, 1: ms
-document.getElementById('dat_gui_container').appendChild( stats.domElement );
+document.body.appendChild(stats.domElement);
 
-// align to the right of dat.gui
-stats.domElement.style.float = 'right';
+// align top-left
+stats.domElement.style.position = 'absolute';
+stats.domElement.style.left = '0px';
+stats.domElement.style.top = '0px';
 
 // ------------------------------------------------------------------------------------------------
 // add controls and GUI
@@ -263,7 +198,6 @@ var controls = new function () {
 }
 
 var gui = new dat.GUI();
-document.getElementById('dat_gui_container').appendChild( gui.domElement );
 gui.add(controls, 'x_rot_v', 0, 0.5);
 gui.add(controls, 'y_rot_v', 0, 0.5);
 gui.add(controls, 'z_rot_v', 0, 0.5);
@@ -309,14 +243,9 @@ function draw() {
     stats.begin();
 
     for (var i = 0; i <n; i++) {
-        //data[i].run(data);
-        //data[i].draw();
-        //data[i].update();
-        var boid = data[i];
-        boid.run(data);
+        data[i].update();
         data[i].update_mesh();
     }
-
 
     parent.rotation.x += controls.p_x_rot_v;
     parent.rotation.y += controls.p_y_rot_v;
@@ -336,55 +265,9 @@ function render() {
   renderer.render( scene, camera );
 }
 
-
-    
 // ------------------------------------------------------------------------------------------------
 // start animation
 
 requestAnimationFrame(draw);
 
 // ------------------------------------------------------------------------------------------------
-
-
-/*
-
-HINT 1: Copy render_three_particle.js. Rename it to render_three_boid.js. Then look for this section and implement your Prototype methods.
-That's all you need to do. The section where you implement your code looks like this:
-
-// ---------------------------------------------------------
-// Particle Render Prototype Methods
-
-*** implement your stuff here ***
-
-// ------------------------------------------------------------------------------------------------
-// Light
-
-*/
-
-
-
-
-/*
-
-HINT 2: Look for this section inside render_processing_boid.js for inspiration. The section where you implement your code looks like this:
-
-// ---------------------------------------------------------
-// boids
-
-*** use this part as a reference ***
-
-// ---------------------------------------------------------
-// setup
-
-*/
-
-
-
-
-/*
-
-Finally, put the boids with three js renderer in your portfolio. This completes your training in introductory data visualization!
-
-*/
-
-
