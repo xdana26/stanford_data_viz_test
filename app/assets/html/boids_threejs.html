@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Boids Algorithm in Three.js</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<style>
+			body {
+				color: #808080;
+				font-family:Monospace;
+				font-size:13px;
+				text-align:center;
+
+				background-color: #ffffff;
+				margin: 0px;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+
+	<div class=".col-xs-12 .col-md-8">
+              <h3 id="boidsviz">Visualizing Boids Using Three.js <small><i><a href="http://aqueous-shelf-73303.herokuapp.com/">(go home)</a></i></small>
+            </h3>
+            
+            <p>
+            This swarming simulation uses the Boids algorithm, which was developed in 1986 to simulate the flocking behavior of birds. The user can interact with and change the visualization by adjusting the various parameters found in the box to the right. The main library used for this implementation is: <a href="https://github.com/mrdoob/three.js/">Three.js</a>.
+            </p>
+            <hr>
+            </div>
+
+	<!-- Container for Visualization -->
+		<div id="container"></div>
+			<canvas id="three_boid"></canvas>
+		
+	<!-- End Container -->
+
+
+	<!-- General JS Libraries (please don't modify these) -->
+
+		<!-- General Utilities (no dependencies) -->
+		<script src="/assets/js/libs/ui/dat.gui.min.js"></script>
+		<script src="/assets/js/libs/ui/stats.min.js"></script>
+
+		<!-- Renderer -->
+		<script src="/assets/js/libs/renderers/three/three.min.js"></script>
+
+		<!-- Renderer Plug-ins (depends on Three.js being loaded first) -->
+		<script src="/assets/js/libs/renderers/three/plugins/AxesHelper2.js"></script>
+		<script src="/assets/js/libs/renderers/three/plugins/OrbitControls.js"></script>
+		<script src="/assets/js/libs/renderers/three/plugins/DeviceOrientationControls.js"></script>
+
+		<!-- Physics (boids) -->
+		<script src="/assets/js/libs/maths/vector3.js"></script>
+		<script src="/assets/js/libs/physics/boids.js"></script>
+	
+	<!-- End General JS Libraries -->
+
+
+	<!-- Your JS Files (please modify the actual file contents) -->
+
+		<!-- Modifications to the physics object (boids) to work with the renderer (three) -->
+		<script src="/assets/js/main/boids_prototypes_for_three.js"></script>
+		
+		<!-- Main program that joins renderer (three) to physics (boid) -->
+		<script src="/assets/js/main/boids_three.js"></script>
+
+	<!-- End Your JS Files -->
+
+	</body>
+</html>

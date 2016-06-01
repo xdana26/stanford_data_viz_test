@@ -21,7 +21,7 @@ camera.position.set( SCENE_WIDTH, SCENE_HEIGHT/2, 2000 );
 
 // orbit controls - how we use our mouse to move the camera
 var controls = new THREE.OrbitControls( camera );
-controls.addEventListener( 'change', render );
+//controls.addEventListener( 'change', render );
 
 // ------------------------------------------------------------------------------------------------
 
